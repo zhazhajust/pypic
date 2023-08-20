@@ -1,0 +1,2 @@
+[console_scripts]
+test = test.help:main

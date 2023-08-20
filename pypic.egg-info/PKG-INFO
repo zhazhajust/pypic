@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: pypic
+Version: 0.1
+Summary: eds sdk
+Home-page: http://github.com
+Author: Jie.Cai
+Author-email: jiecai@stu.pku.edu.com
+License: MIT Licence
+Keywords: pic data reader
+Platform: any
+
+eds sdk for python
