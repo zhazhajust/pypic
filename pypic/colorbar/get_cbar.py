@@ -1,35 +1,33 @@
-import matplotlib.pyplot as plt
-import numpy as np
+from numpy import linspace
+from matplotlib.pyplot import get_cmap, cm, colormaps, set_cmap
 
 def reg_cmap(iname = 'jet'):
-    #iname = 'jet'
     oname = 'dist'    
     low = 0.15       
     high = 1
-
     #(position, [r,g,b,a] or #rrggbb)
     special = [(0,[1,1,1,1])]      
-    cmap = plt.get_cmap(iname)
+    cmap = get_cmap(iname)
     N = int((high - low) * 256)
-    values = np.linspace(low,high,N)
+    values = linspace(low,high,N)
     colors = cmap(values)
     colorlist = [(values[i],colors[i]) for i in range(N)]
     colorlist = special + colorlist
-    cmap = plt.cm.colors.LinearSegmentedColormap.from_list(oname,colorlist)
+    cmap = cm.colors.LinearSegmentedColormap.from_list(oname,colorlist)
     #An other example: plt.cm.colors.LinearSegmentedColormap.from_list(‘cmap’, [‘#FFFFFF’, ‘#98F5FF’, ‘#00FF00’, ‘#FFFF00’,’#FF0000’, ‘#8B0000’], 256)
-    plt.colormaps.register(cmap=cmap, force = True)
+    colormaps.register(cmap=cmap, force = True)
     return cmap
 
 def reg_cmap_transparent(iname, alpha):
     oname = iname + '_transparent'
-    cmap = plt.get_cmap(iname)
+    cmap = get_cmap(iname)
     values = np.linspace(0,1,256)
     colors = cmap(values)
     for i in range(256):
         colors[i][3] = alpha[i]
     colorlist = [(values[i],colors[i]) for i in range(256)]
-    cmap = plt.cm.colors.LinearSegmentedColormap.from_list(oname,colorlist)
-    plt.colormaps.register(cmap=cmap, force = True)
+    cmap = cm.colors.LinearSegmentedColormap.from_list(oname,colorlist)
+    colormaps.register(cmap=cmap, force = True)
     return cmap
 
 def create_alpha(func):
@@ -53,6 +51,6 @@ def getCmap(iname = 'jet'):#lambda x:(0.7 + (1/256*x) *0.3)):
 
 if __name__ == '__main__':
     iname = 'jet'
-    plt.set_cmap(reg_cmap_transparent(iname,create_alpha(lambda x:(0.7 + (1/256*x) *0.3))))
-    cmap_trans = plt.get_cmap()
+    set_cmap(reg_cmap_transparent(iname,create_alpha(lambda x:(0.7 + (1/256*x) *0.3))))
+    cmap_trans = get_cmap()
 

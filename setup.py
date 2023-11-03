@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
   
 setup(  
     name = "pypic",  
-    version = "0.01",
+    version = "0.0.1",
     keywords = ("pic data reader"),  
     description = "eds sdk",  
     long_description = "eds sdk for python",  

@@ -2,13 +2,13 @@
 ####################################
 ####################################
 import numpy as np
-import matlab
-import matlab.engine
 import matplotlib.pyplot as plt
 from scipy.constants import c
 
 class MlabWrapper:
     def __init__(self, Field, interval):
+        import matlab
+        import matlab.engine
         self.Field = Field
         self.interval = interval
         return
