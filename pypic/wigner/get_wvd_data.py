@@ -4,11 +4,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.constants import c
-
+try:
+    import matlab
+    import matlab.engine
+except:
+    pass
 class MlabWrapper:
     def __init__(self, Field, interval):
-        import matlab
-        import matlab.engine
         self.Field = Field
         self.interval = interval
         return
@@ -36,7 +38,6 @@ class MlabWrapper:
         return self.Field.shape
     
 def getWvdData(z, Field, interval):
-
     z = z[::interval]
     dt = (z[1] - z[0])/c
     fs = 1/dt

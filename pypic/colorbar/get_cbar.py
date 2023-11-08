@@ -1,4 +1,4 @@
-from numpy import linspace
+from numpy import linspace, exp
 from matplotlib.pyplot import get_cmap, cm, colormaps, set_cmap
 
 def reg_cmap(iname = 'jet'):
@@ -21,7 +21,7 @@ def reg_cmap(iname = 'jet'):
 def reg_cmap_transparent(iname, alpha):
     oname = iname + '_transparent'
     cmap = get_cmap(iname)
-    values = np.linspace(0,1,256)
+    values = linspace(0,1,256)
     colors = cmap(values)
     for i in range(256):
         colors[i][3] = alpha[i]
@@ -35,7 +35,7 @@ def create_alpha(func):
 
 #iname = 'jet'
 #lambda x:(0.7 + (1/256*x) *0.3)
-#lambda x:(np.exp(x/(256))-0.7)
+#lambda x:(exp(x/(256))-0.7)
 
 def getTransCmap(iname = 'jet', func = lambda x: (0.7 + (1/256*x) *0.3)):#lambda x:(0.7 + (1/256*x) *0.3)):
     #plt.set_cmap(reg_cmap_transparent(iname,create_alpha(func)))#lambda x:(0.7 + (1/256*x) *0.3))))

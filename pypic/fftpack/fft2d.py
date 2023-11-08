@@ -1,7 +1,7 @@
 from numpy import fft
 #from ..constants import c, fs
 
-def fft(field_array, dt, axis = 0):
+def fft_wrapper(field_array, dt, axis = 0):
     freqs_data = fft.rfft(field_array, axis = axis)
     freqs = fft.rfftfreq(field_array.shape[axis], d = dt)
     return freqs, freqs_data
