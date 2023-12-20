@@ -1,6 +1,11 @@
-from .field import plot as plot_field
+# from .geom.field import plot as plot_field
+from .geom import plot_field
 from .line import plot as plot_line
 from .linecollection import plot_lines
-from .get_cax import add_cax
+from .utils.get_cax import add_cax
+from .utils.axes import make_axes, make_cbar
+from .arrowline import arrow, arrowline
+from .pcolor import pcolor
 
-__all__ = ['plot_field', 'plot_line', 'plot_lines', 'add_cax']
+__all__ = ['pcolor', 'plot_field', 'plot_line', 'plot_lines', 
+            'add_cax', "arrow", "arrowline"]
