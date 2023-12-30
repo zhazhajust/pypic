@@ -20,7 +20,7 @@ def generate_rotated_ellipse(center, width, psi_angle, chi_angle):
     height = width * np.tan(np.radians(chi_angle))
 
     # Generate points for the ellipse
-    theta = np.linspace(0, 2*np.pi, 100)
+    theta = np.linspace(0, -2*np.pi, 100)
     x = center[0] + width/2 * np.cos(theta)
     y = center[1] + height/2 * np.sin(theta)
 
@@ -30,14 +30,29 @@ def generate_rotated_ellipse(center, width, psi_angle, chi_angle):
 
     return rotated_x, rotated_y
 
-## Wraper
-def get_ellipse_point(center, width, psi, chi):
-    #width = 20.0 #ey.max()*2
-    psi_angle = psi * 180/3.14  # Change psi angle as needed
-    rotation_angle = chi * 180/3.14
-    y, z = generate_rotated_ellipse(center, width, psi_angle, rotation_angle)
-    print(y.shape, z.shape)
-    return y, z
+def get_stokes_vector(psi, chi):
+    psi_rad = np.radians(psi)
+    chi_rad = np.radians(chi)
+    # Calculate the Stokes parameters
+    S0 = 1
+    S1 = np.cos(2 * psi_rad) * np.cos(2 * chi_rad)
+    S2 = np.sin(2 * psi_rad) * np.cos(2 * chi_rad)
+    S3 = np.sin(2 * chi_rad)
+    # Normalize the Stokes parameters
+    norm = np.sqrt(S1**2 + S2**2 + S3**2)
+    S1 /= norm
+    S2 /= norm
+    S3 /= norm
+    return [S0, S1, S2, S3]
+
+# ## Wraper
+# def get_ellipse_point(center, width, psi, chi):
+#     #width = 20.0 #ey.max()*2
+#     psi_angle = psi * 180/3.14  # Change psi angle as needed
+#     rotation_angle = chi * 180/3.14
+#     y, z = generate_rotated_ellipse(center, width, psi_angle, rotation_angle)
+#     print(y.shape, z.shape)
+#     return y, z
 
 # #################################################################
 
