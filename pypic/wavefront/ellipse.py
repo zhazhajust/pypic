@@ -12,12 +12,10 @@ def get_ellipse(amplitude, amplitude2, phase, phase2):
     chi = arcsin(sin(2 * alpha) * sin(phi))/2
     return psi, chi
 
-# def generate_rotated_ellipse(center, width, psi_angle, rotation_angle):
-def generate_rotated_ellipse(center, width, psi_angle, chi_angle):
+def generate_rotated_ellipse(center, radius, psi_angle, chi_angle):
     # Calculate height based on the given angle
-    # height = width * np.tan(np.radians(psi_angle))
-
-    height = width * np.tan(np.radians(chi_angle))
+    width = radius * np.cos(np.radians(chi_angle))
+    height = radius * np.sin(np.radians(chi_angle))
 
     # Generate points for the ellipse
     theta = np.linspace(0, -2*np.pi, 100)
