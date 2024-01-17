@@ -78,7 +78,7 @@ from mpl_toolkits.mplot3d import Axes3D
 
 # def plot_poincare_sphere(S1, S2, S3):
 
-def plot_poincare_sphere(stokes_vectors: list[float], labels: list[str] = None):
+def plot_poincare_sphere(stokes_vectors: list[float], labels: list[str] = None, colors: list[str] = None):
     # Background points for horizontal and vertical polarizations
     h_points = np.array([[1, 0, 0], [-1, 0, 0]])
     v_points = np.array([[0, 1, 0], [0, -1, 0]])
@@ -106,7 +106,10 @@ def plot_poincare_sphere(stokes_vectors: list[float], labels: list[str] = None):
             label = labels[idx]
         else:
             label = 'Ellipse Laser'
-        ax.scatter(S1, S2, S3, color='r', s=100, label=label)
+        if colors:
+            ax.scatter(S1, S2, S3, color=colors[idx], s=100, label=label)
+        else:
+            ax.scatter(S1, S2, S3, color='r', s=100, label=label)
         ax.text(S1, S2, S3, f'({S1:.2f}, {S2:.2f}, {S3:.2f})', fontsize=10, ha='right')
 
         # Add arrow from center to the ellipse point
@@ -120,7 +123,8 @@ def plot_poincare_sphere(stokes_vectors: list[float], labels: list[str] = None):
     # Background points for horizontal and vertical polarizations
     #ax.scatter(v_points[:, 0], v_points[:, 1], v_points[:, 2], color='gray', s=50, alpha=0.5, label='Horizontal/Vertical Polarizations')
     ax.text(1, 0, 0, 'Horizontal', fontsize=8, ha='left', va='center')
-    ax.text(0, 1, 0, 'Vertical', fontsize=8, ha='left', va='center')
+    # ax.text(0, 1, 0, 'Vertical', fontsize=8, ha='left', va='center')
+    ax.text(0, 1, 0, 'Anti', fontsize=8, ha='left', va='center')
 
     #ax.scatter(h_points[:, 0], h_points[:, 1], h_points[:, 2], color='gray', s=50, alpha=0.5, label='Horizontal/Vertical Polarizations')
     # Background points for right-handed and left-handed circular polarizations
@@ -142,3 +146,5 @@ def plot_poincare_sphere(stokes_vectors: list[float], labels: list[str] = None):
     plt.title('Poincaré Sphere Representation')
 
     plt.show()
+
+    return ax
