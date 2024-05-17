@@ -1,15 +1,35 @@
 from numpy import arcsin, arctan, tan, sin, cos
 import numpy as np
 
+# def get_ellipse(amplitude, amplitude2, phase, phase2):
+#     E0y = amplitude2
+#     E0x = amplitude
+#     phi_y = phase2
+#     phi_x = phase
+#     phi = phi_y - phi_x
+#     alpha = arctan(E0y/E0x)
+#     psi = arctan(tan(2 * alpha) * cos(phi))/2
+#     chi = arcsin(sin(2 * alpha) * sin(phi))/2
+#     return psi, chi
+
 def get_ellipse(amplitude, amplitude2, phase, phase2):
-    E0y = amplitude2
-    E0x = amplitude
-    phi_y = phase2
-    phi_x = phase
-    phi = phi_y - phi_x
-    alpha = arctan(E0y/E0x)
-    psi = arctan(tan(2 * alpha) * cos(phi))/2
-    chi = arcsin(sin(2 * alpha) * sin(phi))/2
+    return calculate_psi_chi(amplitude, phase, amplitude2, phase2)
+
+def calculate_psi_chi(amplitude_x, phase_x, amplitude_y, phase_y):
+    # Convert amplitude and phase to complex electric field components
+    Ex = amplitude_x * np.exp(1j * phase_x)
+    Ey = amplitude_y * np.exp(1j * phase_y)
+    
+    # Calculate Stokes parameters
+    I = np.abs(Ex)**2 + np.abs(Ey)**2
+    Q = np.abs(Ex)**2 - np.abs(Ey)**2
+    U = 2 * np.real(Ex * np.conj(Ey))
+    V = 2 * np.imag(Ex * np.conj(Ey))
+    
+    # Calculate psi and chi
+    psi = 0.5 * np.arctan2(U, Q)
+    chi = 0.5 * np.arctan2(V, I)
+    
     return psi, chi
 
 def generate_rotated_ellipse(center, radius, psi_angle, chi_angle):
