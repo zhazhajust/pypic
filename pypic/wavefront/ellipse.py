@@ -28,7 +28,8 @@ def calculate_psi_chi(amplitude_x, phase_x, amplitude_y, phase_y):
     
     # Calculate psi and chi
     psi = 0.5 * np.arctan2(U, Q)
-    chi = 0.5 * np.arctan2(V, I)
+    # chi = 0.5 * np.arctan2(V, I)
+    chi = 0.5 * np.arcsin(V/I)
     
     return psi, chi
 
