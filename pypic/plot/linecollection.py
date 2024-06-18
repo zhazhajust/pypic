@@ -21,3 +21,30 @@ def plot_lines(axs, x, y, ek, **kwargs):
     line = axs.add_collection(lc)
 
     return line
+
+# import numpy as np
+from matplotlib import cm
+from mpl_toolkits.mplot3d.art3d import Line3DCollection
+
+def plot_3d_collection(fig, points, value, cmap=cm.gist_earth):
+
+    # 创建线段
+    segments = np.array([points[:-1], points[1:]]).transpose(1, 0, 2)
+
+    # 生成颜色数据
+    colors = value
+    ax = fig.add_subplot(111, projection='3d')
+
+    # 创建线集合
+    lines = Line3DCollection(segments, cmap = cmap, linewidths=2)
+    lines.set_array(colors)
+
+    # 添加到坐标轴
+    ax.add_collection(lines)
+
+    # 设置坐标轴范围
+    ax.set_xlim(-1, 1)
+    ax.set_ylim(-1, 1)
+    ax.set_zlim(0, 4 * np.pi)
+
+    return ax, lines

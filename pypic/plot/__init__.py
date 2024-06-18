@@ -6,6 +6,6 @@ from .utils.get_cax import add_cax
 from .utils.axes import make_axes, make_cbar
 from .arrowline import arrow, arrowline
 from .pcolor import pcolor
-
-__all__ = ['pcolor', 'plot_field', 'plot_line', 'plot_lines', 
+from .linecollection import plot_3d_collection
+__all__ = ['pcolor', 'plot_field', 'plot_line', 'plot_lines', 'plot_3d_collection',
             'add_cax', "arrow", "arrowline"]
