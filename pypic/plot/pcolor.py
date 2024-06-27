@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from .utils.get_cax import add_cax
 
 def pcolor(x, y, z, **kw):
     #im = plt.pcolormesh(z[:, 0]/1e-6, freq/1e12, np.abs(xf[:, :, 150]), cmap = "jet")
@@ -10,18 +11,18 @@ def pcolor(x, y, z, **kw):
     figsize = kw.pop("figsize", None)
     clabel = kw.pop("clabel", None)
     if if_fig:
-        plt.figure(figsize = figsize)
-    im = plt.pcolormesh(x, y, z, **kw)
-    cbar = plt.colorbar()
+        fig, ax = plt.subplots(figsize = figsize)
+    im = ax.pcolormesh(x, y, z, **kw)
+    cax = add_cax(fig, ax)
+    cbar = fig.colorbar(im, cax)
     if clabel:
         cbar.set_label(clabel)
     if ylim:
-        plt.ylim(ylim)
+        ax.set_ylim(ylim)
     if xlim:
-        plt.xlim(xlim)
+        ax.set_xlim(xlim)
     if xlabel:
-        plt.xlabel(xlabel)
+        ax.set_xlabel(xlabel)
     if ylabel:
-        plt.ylabel(ylabel)
-    return im
-
+        ax.set_ylabel(ylabel)
+    return im, fig, ax
