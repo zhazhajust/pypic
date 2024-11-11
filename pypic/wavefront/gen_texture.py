@@ -4,8 +4,8 @@ from scipy.constants import c
 from pypic.wavefront import get_ellipse
 from lasy.profiles.transverse import HermiteGaussianTransverseProfile
 
-def get_profile(y, z, w0, z_foc, phase_0, n_x = 0, n_y = 1):
-    frequency = 12.04e12
+def get_profile(y, z, w0, z_foc, phase_0, n_x = 0, n_y = 1, frequency = 12.04e12):
+    # frequency = 12.04e12
     wavelength = c/frequency
     laser_per = HermiteGaussianTransverseProfile(w0, n_x, n_y, wavelength=wavelength, z_foc=z_foc)
     Y, Z = np.meshgrid(y, z)
@@ -13,10 +13,10 @@ def get_profile(y, z, w0, z_foc, phase_0, n_x = 0, n_y = 1):
 
 def gen_texture(y: np.ndarray, z: np.ndarray, w00: float, w01: float, z_foc00: float, 
                 z_foc01: float, ket_0: float, ket_1: float, theta_0: float, 
-                phase_00: float, phase_01: float):
+                phase_00: float, phase_01: float, frequency = 12.04e12):
     
-    profile00 = ket_0*get_profile(y, z, w00, z_foc00, phase_00, 0, 0)
-    profile01 = ket_1*get_profile(y, z, w01, z_foc01, phase_01, 0, 1)*np.exp(1j*theta_0)
+    profile00 = ket_0*get_profile(y, z, w00, z_foc00, phase_00, 0, 0, frequency)
+    profile01 = ket_1*get_profile(y, z, w01, z_foc01, phase_01, 0, 1, frequency)*np.exp(1j*theta_0)
     psi, chi = get_ellipse(np.abs(profile00), np.abs(profile01), np.angle(profile00), np.angle(profile01))
     amp = np.sqrt(np.abs(profile00)**2 + np.abs(profile01)**2)
     colors_alpha = amp/amp.max()

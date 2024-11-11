@@ -39,7 +39,8 @@ def generate_rotated_ellipse(center, radius, psi_angle, chi_angle):
     height = radius * np.sin(np.radians(chi_angle))
 
     # Generate points for the ellipse
-    theta = np.linspace(0, -2*np.pi, 100)
+    # theta = np.linspace(0, -2*np.pi, 100)
+    theta = np.linspace(0, 2*np.pi, 100)
     x = center[0] + width/2 * np.cos(theta)
     y = center[1] + height/2 * np.sin(theta)
 
