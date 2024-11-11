@@ -1,5 +1,10 @@
 from numpy import linspace, exp
+from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.pyplot import get_cmap, cm, colormaps, set_cmap
+
+def deep_blue_white_red(colors = ["#3B4CC0", "white", "#B40426"]):
+    cmap = LinearSegmentedColormap.from_list("deep_blue_white_red", colors)
+    return cmap
 
 def reg_cmap(iname = 'jet'):
     oname = 'dist'    
@@ -14,8 +19,8 @@ def reg_cmap(iname = 'jet'):
     colorlist = [(values[i],colors[i]) for i in range(N)]
     colorlist = special + colorlist
     cmap = cm.colors.LinearSegmentedColormap.from_list(oname,colorlist)
-    #An other example: plt.cm.colors.LinearSegmentedColormap.from_list(‘cmap’, [‘#FFFFFF’, ‘#98F5FF’, ‘#00FF00’, ‘#FFFF00’,’#FF0000’, ‘#8B0000’], 256)
-    colormaps.register(cmap=cmap, force = True)
+    # ### An other example ###
+    # plt.cm.colors.LinearSegmentedColormap.from_list(‘cmap’, [‘#FFFFFF’, ‘#98F5FF’, ‘#00FF00’, ‘#FFFF00’,’#FF0000’, ‘#8B0000’], 256)
     return cmap
 
 def reg_cmap_transparent(iname, alpha):
@@ -27,26 +32,15 @@ def reg_cmap_transparent(iname, alpha):
         colors[i][3] = alpha[i]
     colorlist = [(values[i],colors[i]) for i in range(256)]
     cmap = cm.colors.LinearSegmentedColormap.from_list(oname,colorlist)
-    colormaps.register(cmap=cmap, force = True)
     return cmap
 
 def create_alpha(func):
     return [ 1 if func(i)>1 else 0 if func(i)<0 else func(i) for i in range(256)]
 
-#iname = 'jet'
-#lambda x:(0.7 + (1/256*x) *0.3)
-#lambda x:(exp(x/(256))-0.7)
-
 def getTransCmap(iname = 'jet', func = lambda x: (0.7 + (1/256*x) *0.3)):#lambda x:(0.7 + (1/256*x) *0.3)):
-    #plt.set_cmap(reg_cmap_transparent(iname,create_alpha(func)))#lambda x:(0.7 + (1/256*x) *0.3))))
-    #cmap_trans = plt.get_cmap()
-    #return cmap_trans
     return reg_cmap_transparent(iname, create_alpha(func))
 
 def getCmap(iname = 'jet'):#lambda x:(0.7 + (1/256*x) *0.3)):
-    #plt.set_cmap(reg_cmap(iname))#lambda x:(0.7 + (1/256*x) *0.3))))
-    #cmap_trans = plt.get_cmap()
-    #return cmap_trans
     return reg_cmap(iname)
 
 if __name__ == '__main__':
