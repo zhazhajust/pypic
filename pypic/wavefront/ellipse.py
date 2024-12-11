@@ -1,5 +1,5 @@
-from numpy import arcsin, arctan, tan, sin, cos
 import numpy as np
+# from numpy import arcsin, arctan, tan, sin, cos
 
 # def get_ellipse(amplitude, amplitude2, phase, phase2):
 #     E0y = amplitude2
@@ -33,6 +33,57 @@ def calculate_psi_chi(amplitude_x, phase_x, amplitude_y, phase_y):
     
     return psi, chi
 
+def get_stokes_vector(psi, chi, units="radian"):
+    if units == "degree":
+        psi_rad = np.radians(psi)
+        chi_rad = np.radians(chi)
+    else:
+        psi_rad = psi
+        chi_rad = chi
+    # Calculate the Stokes parameters
+    S0 = 1
+    S1 = np.cos(2 * psi_rad) * np.cos(2 * chi_rad)
+    S2 = np.sin(2 * psi_rad) * np.cos(2 * chi_rad)
+    S3 = np.sin(2 * chi_rad)
+    # Normalize the Stokes parameters
+    norm = np.sqrt(S1**2 + S2**2 + S3**2)
+    S1 /= norm
+    S2 /= norm
+    S3 /= norm
+    return [S0, S1, S2, S3]
+
+def get_skyrmion_number(stokes):
+    # 假设 stokes_vectors 是一个形状为 (200, 200, 3) 的 numpy 数组，表示你的 Stokes 矢量场
+    # 这里你可以替换为你的实际数据
+    # stokes_vectors = np.random.rand(200, 200, 3)
+    # stokes_vectors = stokes.transpose(2, 1, 0)
+    stokes_vectors = np.array([stokes[1], stokes[2], stokes[3]]).transpose(2, 1, 0)
+
+    # 1. 规范化 Stokes 矢量场
+    norm = np.linalg.norm(stokes_vectors, axis=2, keepdims=True)
+    stokes_vectors_normalized = stokes_vectors / norm
+
+    # 2. 使用 np.gradient 计算偏导数
+    # np.gradient 会计算每个分量在 x 和 y 方向的偏导数
+    dS_dx = np.gradient(stokes_vectors_normalized, axis=0)  # 对 x 方向的偏导数
+    dS_dy = np.gradient(stokes_vectors_normalized, axis=1)  # 对 y 方向的偏导数
+
+    # 3. 计算交叉乘积
+    cross_product = np.cross(dS_dx, dS_dy)
+
+    # 计算斯格明子数密度
+    skyrmion_density = np.einsum('ijk,ijk->ij', stokes_vectors_normalized, cross_product)
+
+    # 4. 计算斯格明子数 Q
+    Q = np.sum(skyrmion_density) / (4 * np.pi)
+
+    print("Skyrmion number Q:", Q)
+    return Q
+
+############################
+# Generate rotated ellipse #
+############################
+
 def generate_rotated_ellipse(center, radius, psi_angle, chi_angle):
     # Calculate height based on the given angle
     width = radius * np.cos(np.radians(chi_angle))
@@ -50,20 +101,6 @@ def generate_rotated_ellipse(center, radius, psi_angle, chi_angle):
 
     return rotated_x, rotated_y
 
-def get_stokes_vector(psi, chi):
-    psi_rad = np.radians(psi)
-    chi_rad = np.radians(chi)
-    # Calculate the Stokes parameters
-    S0 = 1
-    S1 = np.cos(2 * psi_rad) * np.cos(2 * chi_rad)
-    S2 = np.sin(2 * psi_rad) * np.cos(2 * chi_rad)
-    S3 = np.sin(2 * chi_rad)
-    # Normalize the Stokes parameters
-    norm = np.sqrt(S1**2 + S2**2 + S3**2)
-    S1 /= norm
-    S2 /= norm
-    S3 /= norm
-    return [S0, S1, S2, S3]
 
 # ## Wraper
 # def get_ellipse_point(center, width, psi, chi):

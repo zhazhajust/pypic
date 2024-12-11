@@ -15,7 +15,7 @@ setup(
     packages = find_packages(),  
     include_package_data = True,  
     platforms = "any",  
-    install_requires = ["numpy"],  
+    install_requires = ["numpy", "numba", "lasy"],  
   
     scripts = [],  
     entry_points = {  
