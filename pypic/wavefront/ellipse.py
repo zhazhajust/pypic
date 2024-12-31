@@ -50,7 +50,7 @@ def get_stokes_vector(psi, chi, units="radian"):
     S1 /= norm
     S2 /= norm
     S3 /= norm
-    return [S0, S1, S2, S3]
+    return np.array([S0, S1, S2, S3])
 
 def get_skyrmion_number(stokes):
     # 假设 stokes_vectors 是一个形状为 (200, 200, 3) 的 numpy 数组，表示你的 Stokes 矢量场
