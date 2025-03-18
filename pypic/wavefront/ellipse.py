@@ -12,11 +12,28 @@ import numpy as np
 #     chi = arcsin(sin(2 * alpha) * sin(phi))/2
 #     return psi, chi
 
-def get_ellipse(amplitude, amplitude2, phase, phase2):
-    return calculate_psi_chi(amplitude, phase, amplitude2, phase2)
+# def get_ellipse(amplitude, amplitude2, phase, phase2):
+#     return calculate_psi_chi(amplitude, phase, amplitude2, phase2)
 
-def calculate_psi_chi(amplitude_x, phase_x, amplitude_y, phase_y):
-    # Convert amplitude and phase to complex electric field components
+# def calculate_psi_chi(amplitude_x, phase_x, amplitude_y, phase_y):
+#     # Convert amplitude and phase to complex electric field components
+#     Ex = amplitude_x * np.exp(1j * phase_x)
+#     Ey = amplitude_y * np.exp(1j * phase_y)
+    
+#     # Calculate Stokes parameters
+#     I = np.abs(Ex)**2 + np.abs(Ey)**2
+#     Q = np.abs(Ex)**2 - np.abs(Ey)**2
+#     U = 2 * np.real(Ex * np.conj(Ey))
+#     V = 2 * np.imag(Ex * np.conj(Ey))
+    
+#     # Calculate psi and chi
+#     psi = 0.5 * np.arctan2(U, Q)
+#     # chi = 0.5 * np.arctan2(V, I)
+#     chi = 0.5 * np.arcsin(V/I)
+    
+#     return psi, chi
+
+def get_ellipse(amplitude_x, amplitude_y, phase_x, phase_y):
     Ex = amplitude_x * np.exp(1j * phase_x)
     Ey = amplitude_y * np.exp(1j * phase_y)
     
@@ -24,11 +41,10 @@ def calculate_psi_chi(amplitude_x, phase_x, amplitude_y, phase_y):
     I = np.abs(Ex)**2 + np.abs(Ey)**2
     Q = np.abs(Ex)**2 - np.abs(Ey)**2
     U = 2 * np.real(Ex * np.conj(Ey))
-    V = 2 * np.imag(Ex * np.conj(Ey))
+    V = -2 * np.imag(Ex * np.conj(Ey))
     
     # Calculate psi and chi
     psi = 0.5 * np.arctan2(U, Q)
-    # chi = 0.5 * np.arctan2(V, I)
     chi = 0.5 * np.arcsin(V/I)
     
     return psi, chi
@@ -41,16 +57,19 @@ def get_stokes_vector(psi, chi, units="radian"):
         psi_rad = psi
         chi_rad = chi
     # Calculate the Stokes parameters
-    S0 = 1
     S1 = np.cos(2 * psi_rad) * np.cos(2 * chi_rad)
     S2 = np.sin(2 * psi_rad) * np.cos(2 * chi_rad)
     S3 = np.sin(2 * chi_rad)
+    S0 = np.ones_like(S1)
     # Normalize the Stokes parameters
     norm = np.sqrt(S1**2 + S2**2 + S3**2)
     S1 /= norm
     S2 /= norm
     S3 /= norm
     return np.array([S0, S1, S2, S3])
+    # return [S0, S1, S2, S3]
+
+### Skyrmion number calculation
 
 def get_skyrmion_number(stokes):
     # 假设 stokes_vectors 是一个形状为 (200, 200, 3) 的 numpy 数组，表示你的 Stokes 矢量场
