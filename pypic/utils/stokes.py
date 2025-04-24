@@ -3,8 +3,8 @@ from scipy.signal import hilbert
 
 def get_stokes_vector(Ex, Ey, if_normalize=True):
 
-    E_x = hilbert(Ex, axis = 0)
-    E_y = hilbert(Ey, axis = 0)
+    E_x = np.conj(hilbert(Ex, axis = 0))
+    E_y = np.conj(hilbert(Ey, axis = 0))
 
     # 总光强 I
     I = np.mean(np.real(E_x)**2, axis=0) + np.mean(np.real(E_y)**2, axis=0)
@@ -18,8 +18,8 @@ def get_stokes_vector(Ex, Ey, if_normalize=True):
     U = np.mean(np.real(E_a)**2, axis=0) - np.mean(np.real(E_b)**2, axis=0)
 
     # 计算圆偏振分量 V
-    E_r = (E_x - 1j * E_y) / np.sqrt(2)
-    E_l = (E_x + 1j * E_y) / np.sqrt(2)
+    E_r = (E_x + 1j * E_y) / np.sqrt(2)
+    E_l = (E_x - 1j * E_y) / np.sqrt(2)
     V = np.mean(np.real(E_r)**2, axis=0) - np.mean(np.real(E_l)**2, axis=0)
 
     # 归一化
