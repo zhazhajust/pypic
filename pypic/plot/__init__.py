@@ -7,5 +7,7 @@ from .utils.axes import make_axes, make_cbar
 from .arrowline import arrow, arrowline
 from .pcolor import pcolor
 from .linecollection import plot_3d_collection
+from .ellipse import generate_rotated_ellipse
+
 __all__ = ['pcolor', 'plot_field', 'plot_line', 'plot_lines', 'plot_3d_collection',
-            'add_cax', "arrow", "arrowline"]
+            'add_cax', "arrow", "arrowline", 'generate_rotated_ellipse']
