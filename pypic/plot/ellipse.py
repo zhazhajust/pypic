@@ -12,7 +12,7 @@ def generate_rotated_ellipse(center, radius, psi_angle, chi_angle):
     y = center[1] + height/2 * np.sin(theta)
 
     # Rotate the points around the center
-    rotated_x = center[0] + (x - center[0]) * np.cos(np.radians(psi_angle)) - (y - center[1]) * np.sin(np.radians(psi_angle))
-    rotated_y = center[1] + (x - center[0]) * np.sin(np.radians(psi_angle)) + (y - center[1]) * np.cos(np.radians(psi_angle))
+    rotated_x = center[0] + (x - center[0]) * np.cos(psi_angle) - (y - center[1]) * np.sin(psi_angle)
+    rotated_y = center[1] + (x - center[0]) * np.sin(psi_angle) + (y - center[1]) * np.cos(psi_angle)
 
     return rotated_x, rotated_y
