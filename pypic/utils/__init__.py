@@ -3,6 +3,7 @@ from .reduce_array import reduce_array, downsample_nd_array
 from .array import _cell_bounds
 from .stokes import get_stokes_vector, get_polarization_degree, get_ellipse
 from .affine_transform import affine_transform
+from .wvd import wvd
 
-__all__ = ["interp_data", "reduce_array", "downsample_nd_array", "_cell_bounds", 
+__all__ = ["interp_data", "reduce_array", "downsample_nd_array", "_cell_bounds", "wvd",
            "get_stokes_vector", "get_polarization_degree", "get_ellipse", "affine_transform"]
